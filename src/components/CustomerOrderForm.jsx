@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 import { OrderContext } from "./OrderContext";
 
 const menuItems = [
@@ -48,8 +49,11 @@ const menuItems = [
 
 const CustomerOrderForm = () => {
   const { addOrder } = useContext(OrderContext);
-  
-  const [name, setName] = useState('');
+  const location = useLocation();
+
+  const initialName = location.state?.guestName || '';
+  const [name] = useState(initialName);
+
   const [selectedItems, setSelectedItems] = useState([]);
   const [notes, setNotes] = useState('');
   const [showDescription, setShowDescription] = useState(null);
@@ -87,7 +91,6 @@ const CustomerOrderForm = () => {
 
     // Reset form with a slight delay for visual feedback
     setTimeout(() => {
-      setName('');
       setSelectedItems([]);
       setNotes('');
     }, 300);
@@ -107,32 +110,19 @@ const CustomerOrderForm = () => {
         </div>
       </div>
 
-      <div className="px-4 py-6 space-y-6">
-        {/* Name Input */}
-        <div className="space-y-2">
-          <label className="text-white font-medium text-sm uppercase tracking-wide">
-            Your Name
-          </label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter your name..."
-            className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:bg-white/20 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 transition-all duration-200 backdrop-blur-sm"
-          />
-        </div>
-
+      {/* Wrap all siblings in a container */}
+      <div className="px-6 py-6 space-y-6">
         {/* Drink Selection */}
         <div className="space-y-4">
           <label className="text-white font-medium text-sm uppercase tracking-wide">
             Choose Your Drinks
           </label>
-          
+
           <div className="grid gap-3">
             {menuItems.map((item, index) => {
               const isSelected = selectedItems.includes(item.name);
               const showDesc = showDescription === index;
-              
+
               return (
                 <div key={index} className="space-y-2">
                   <div
@@ -146,19 +136,21 @@ const CustomerOrderForm = () => {
                       <div className="flex items-center space-x-3 flex-1">
                         <span className="text-2xl">{item.emoji}</span>
                         <div className="text-left flex-1">
-                          <h3 className={`font-semibold ${isSelected ? 'text-white' : 'text-white'}`}>
+                          <h3 className={`font-semibold text-white`}>
                             {item.name}
                           </h3>
-                          <span className={`text-xs px-2 py-1 rounded-full ${
-                            isSelected 
-                              ? 'bg-white/20 text-white' 
-                              : 'bg-purple-500/30 text-purple-200'
-                          }`}>
+                          <span
+                            className={`text-xs px-2 py-1 rounded-full ${
+                              isSelected
+                                ? 'bg-white/20 text-white'
+                                : 'bg-purple-500/30 text-purple-200'
+                            }`}
+                          >
                             {item.category}
                           </span>
                         </div>
                       </div>
-                      
+
                       <div className="flex items-center space-x-2">
                         {/* Info Button */}
                         <button
@@ -170,35 +162,43 @@ const CustomerOrderForm = () => {
                           className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
                             showDesc
                               ? 'bg-yellow-400 border-yellow-400 text-yellow-900'
-                              : isSelected 
-                                ? 'border-white/60 text-white/80 hover:bg-white/20' 
-                                : 'border-white/40 text-white/60 hover:bg-white/10'
+                              : isSelected
+                              ? 'border-white/60 text-white/80 hover:bg-white/20'
+                              : 'border-white/40 text-white/60 hover:bg-white/10'
                           }`}
                           title="View description"
                         >
                           <span className="text-sm font-bold">i</span>
                         </button>
-                        
+
                         {/* Select Button */}
                         <button
                           type="button"
                           onClick={() => handleItemToggle(item)}
                           className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all duration-200 transform active:scale-95 ${
-                            isSelected 
-                              ? 'bg-white border-white' 
+                            isSelected
+                              ? 'bg-white border-white'
                               : 'border-white/40 hover:bg-white/10'
                           }`}
                         >
                           {isSelected && (
-                            <svg className="w-4 h-4 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            <svg
+                              className="w-4 h-4 text-purple-600"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clipRule="evenodd"
+                              />
                             </svg>
                           )}
                         </button>
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Description Panel */}
                   {showDesc && (
                     <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-400/30 rounded-xl p-4 backdrop-blur-sm animate-in slide-in-from-top-2 duration-300">
@@ -256,10 +256,10 @@ const CustomerOrderForm = () => {
             'Select drinks to continue'
           )}
         </button>
-      </div>
 
-      {/* Bottom Spacing for Mobile */}
-      <div className="h-8"></div>
+        {/* Bottom Spacing for Mobile */}
+        <div className="h-8"></div>
+      </div>
     </div>
   );
 };
