@@ -1,41 +1,58 @@
 import React, { createContext, useState, useEffect } from "react";
+import { initializeApp } from "firebase/app";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  serverTimestamp,
+} from "firebase/firestore";
 
 export const OrderContext = createContext();
 
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 export const OrderProvider = ({ children }) => {
-  // Load orders from localStorage or start empty
-  const [orders, setOrders] = useState(() => {
-    const saved = localStorage.getItem("orders");
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [orders, setOrders] = useState([]);
 
-  // Save orders to localStorage whenever they change
   useEffect(() => {
-    localStorage.setItem("orders", JSON.stringify(orders));
-  }, [orders]);
+    const unsubscribe = onSnapshot(collection(db, "orders"), (snapshot) => {
+      const fetchedOrders = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      fetchedOrders.sort((a, b) => a.createdAt?.seconds - b.createdAt?.seconds);
+      setOrders(fetchedOrders);
+    });
 
-  // Listen for changes in other tabs and update state
-  useEffect(() => {
-    const handleStorageChange = (event) => {
-      if (event.key === "orders") {
-        const newOrders = event.newValue ? JSON.parse(event.newValue) : [];
-        setOrders(newOrders);
-      }
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
+    return () => unsubscribe();
   }, []);
 
-  const addOrder = (order) => {
-    setOrders((prev) => [...prev, order]);
+  const addOrder = async (order) => {
+    await addDoc(collection(db, "orders"), {
+      ...order,
+      createdAt: serverTimestamp(),
+    });
   };
 
-  const removeOrder = (id) => {
-    setOrders((prev) => prev.filter((o) => o.id !== id));
+  const removeOrder = async (id) => {
+    if (!id || typeof id !== "string") {
+      console.error("Invalid doc ID:", id);
+      return;
+    }
+    await deleteDoc(doc(db, "orders", String(id)));
   };
 
   return (
