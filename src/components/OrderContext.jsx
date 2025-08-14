@@ -29,10 +29,14 @@ export const OrderProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "orders"), (snapshot) => {
-      const fetchedOrders = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      const fetchedOrders = snapshot.docs.map((doc) => {
+        const data = doc.data();
+        const { id: _, ...rest } = data;
+        return {
+          id: doc.id,
+          ...rest,
+        };
+      });
       fetchedOrders.sort((a, b) => a.createdAt?.seconds - b.createdAt?.seconds);
       setOrders(fetchedOrders);
     });
@@ -41,8 +45,9 @@ export const OrderProvider = ({ children }) => {
   }, []);
 
   const addOrder = async (order) => {
+    const { id: _, ...rest } = order;
     await addDoc(collection(db, "orders"), {
-      ...order,
+      ...rest,
       createdAt: serverTimestamp(),
     });
   };
@@ -52,7 +57,7 @@ export const OrderProvider = ({ children }) => {
       console.error("Invalid doc ID:", id);
       return;
     }
-    await deleteDoc(doc(db, "orders", String(id)));
+    await deleteDoc(doc(db, "orders", id));
   };
 
   return (
