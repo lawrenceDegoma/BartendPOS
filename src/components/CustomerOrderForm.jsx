@@ -217,7 +217,7 @@ const CustomerOrderForm = () => {
         {selectedItems.length > 0 && (
           <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-400/30 rounded-xl p-4 backdrop-blur-sm">
             <p className="text-green-200 text-sm font-medium">
-              🛒 {selectedItems.length} drink{selectedItems.length > 1 ? 's' : ''} selected
+              ðŸ›’ {selectedItems.length} drink{selectedItems.length > 1 ? 's' : ''} selected
             </p>
           </div>
         )}
@@ -230,7 +230,7 @@ const CustomerOrderForm = () => {
           <textarea
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            placeholder="Extra lime, no ice, make it strong... 😉"
+            placeholder="Extra lime, no ice, make it strong..."
             rows="3"
             className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:bg-white/20 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 transition-all duration-200 backdrop-blur-sm resize-none"
           />
@@ -248,9 +248,9 @@ const CustomerOrderForm = () => {
         >
           {selectedItems.length > 0 ? (
             <span className="flex items-center justify-center space-x-2">
-              <span>🚀</span>
+              <span>ðŸš€</span>
               <span>Send My Order</span>
-              <span>🍻</span>
+              <span>ðŸ»</span>
             </span>
           ) : (
             'Select drinks to continue'
