@@ -14,7 +14,7 @@ const menuItems = [
     name: 'Tokyo Tea', 
     emoji: '🍵', 
     category: 'Strong',
-    description: 'Similar to Long Island but with melon liqueur instead of cola, giving it a beautiful green color and a slightly sweeter, fruity taste. Still packs a punch!',
+    description: 'Similar to Long Island but with the use of a melon liqueur and sprite, giving it a beautiful green color and a slightly sweeter, fruity taste. Still packs a punch!',
     recipe: '0.5 oz vodka, 0.5 oz gin, 0.5 oz rum, 0.5 oz tequila, 0.5 oz midori, 2 oz sour mix, top with sprite, lemon or lime garnish'
   },
   { 
@@ -28,14 +28,14 @@ const menuItems = [
     name: 'Moscow Mule', 
     emoji: '🥃', 
     category: 'Classic',
-    description: 'Vodka, spicy ginger beer, and fresh lime juice served in a copper mug. Refreshing, zesty, and has a nice kick from the ginger. A timeless favorite!',
+    description: 'Vodka, spicy ginger beer, and fresh lime juice served in a copper mug. Refreshing, zesty, and has a nice kick from the ginger.',
     recipe: '2 oz vodka, 0.5 oz lime juice, 4 oz ginger beer'
   },
   { 
     name: 'Lemon Drop', 
     emoji: '🍋', 
-    category: 'Sweet',
-    description: 'Vodka-based cocktail with fresh lemon juice and simple syrup, served with a sugar rim. Sweet, tart, and goes down dangerously smooth!',
+    category: 'Shot',
+    description: 'Vodka-based cocktail with fresh lemon juice and simple syrup. Sweet, tart, and goes down dangerously smooth!',
     recipe: 'From bottle'
   },
   { 
