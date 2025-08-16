@@ -1,8 +1,19 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { OrderContext } from "./OrderContext.jsx";
+
+// Import recipes from CustomerOrderForm data
+const recipeData = {
+  'Long Island Iced Tea': '0.5 oz vodka, 0.5 oz gin, 0.5 oz rum, 0.5 oz tequila, 0.5 oz Triple sec, 0.5 oz simple syrup, 0.5 oz lemon juice, top with coke, lemon wedge garnish',
+  'Tokyo Tea': '0.5 oz vodka, 0.5 oz gin, 0.5 oz rum, 0.5 oz tequila, 0.5 oz midori, 2 oz sour mix, top with sprite, lemon or lime garnish',
+  'Midori Sour': '1.5 oz midori, 2 oz sour mix, 1.5 oz lime juice, top with sprite',
+  'Moscow Mule': '2 oz vodka, 0.5 oz lime juice, 4 oz ginger beer',
+  'Lemon Drop': 'From bottle',
+  'Green Tea Shot': 'From bottle'
+};
 
 const BartenderQueue = () => {
   const { orders, removeOrder } = useContext(OrderContext);
+  const [showRecipe, setShowRecipe] = useState(null);
   
   const formatTime = (timestamp) => {
     const date = new Date(timestamp);
@@ -31,6 +42,11 @@ const BartenderQueue = () => {
     if (diffMinutes >= 10) return "border-l-red-500 bg-red-50/50";
     if (diffMinutes >= 5) return "border-l-orange-400 bg-orange-50/50";
     return "border-l-green-500 bg-white";
+  };
+
+  const handleShowRecipe = (orderIndex, drinkIndex) => {
+    const key = `${orderIndex}-${drinkIndex}`;
+    setShowRecipe(showRecipe === key ? null : key);
   };
 
   return (
@@ -72,11 +88,12 @@ const BartenderQueue = () => {
             <p className="text-lg sm:text-xl text-gray-600">New orders will appear here when customers place them.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {orders.map((order, index) => (
+          <div className="space-y-6">
+            {orders.map((order, orderIndex) => (
               <div
                 key={order.id}
-                className={`border-l-4 rounded-xl shadow-sm transition-all duration-200 hover:shadow-lg ${getUrgencyColor(order.timestamp)}`}
+                className={`border-l-4 rounded-xl shadow-sm transition-all duration-200 hover:shadow-lg w-full max-w-[768px] ${getUrgencyColor(order.timestamp)}`}
+                style={{ marginLeft: 0 }}
               >
                 <div className="p-4 sm:p-6">
                   {/* Order Header */}
@@ -88,7 +105,7 @@ const BartenderQueue = () => {
                         </span>
                       </div>
                       <div>
-                        <h3 className="text-lg sm:text-xl font-semibold text-gray-900">{order.customer || `Order #${index + 1}`}</h3>
+                        <h3 className="text-lg sm:text-xl font-semibold text-gray-900">{order.customer || `Order #${orderIndex + 1}`}</h3>
                         <div className="flex items-center space-x-3 sm:space-x-4 text-xs sm:text-sm text-gray-600 mt-1">
                           <span>🕐 {formatTime(order.timestamp)}</span>
                           <span className="font-medium">{getTimeElapsed(order.timestamp)}</span>
@@ -111,13 +128,47 @@ const BartenderQueue = () => {
                       Drinks Ordered ({order.items.length})
                     </h4>
                     <div className="grid gap-2">
-                      {order.items.map((drink, i) => (
-                        <div key={i} className="flex items-center space-x-2 sm:space-x-3 p-2 sm:p-3 bg-gray-50 rounded-lg">
-                          <span className="text-2xl sm:text-3xl">{drink.emoji || '🍹'}</span>
-                          <span className="font-medium text-gray-900 text-sm sm:text-base flex-1">{drink.name || drink}</span>
-                          <span className="text-xs sm:text-sm bg-gray-200 text-gray-600 px-2 py-1 rounded-full font-medium">#{i + 1}</span>
-                        </div>
-                      ))}
+                      {order.items.map((drink, drinkIndex) => {
+                        const recipeKey = `${orderIndex}-${drinkIndex}`;
+                        const showThisRecipe = showRecipe === recipeKey;
+                        
+                        return (
+                          <div key={drinkIndex} className="space-y-2">
+                            <div className="flex items-center space-x-2 sm:space-x-3 p-2 sm:p-3 bg-gray-50 rounded-lg">
+                              <span className="text-2xl sm:text-3xl">{drink.emoji || '🍹'}</span>
+                              <span className="font-medium text-gray-900 text-sm sm:text-base flex-1">{drink.name || drink}</span>
+                              <span className="text-xs sm:text-sm bg-gray-200 text-gray-600 px-2 py-1 rounded-full font-medium">#{drinkIndex + 1}</span>
+                              
+                              {/* Recipe Button */}
+                              <button
+                                onClick={() => handleShowRecipe(orderIndex, drinkIndex)}
+                                className={`px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all duration-200 ${
+                                  showThisRecipe
+                                    ? 'bg-blue-600 text-white'
+                                    : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
+                                }`}
+                              >
+                                {showThisRecipe ? 'Hide Recipe' : 'Recipe'}
+                              </button>
+                            </div>
+                            
+                            {/* Recipe Panel */}
+                            {showThisRecipe && (
+                              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-3 sm:p-4 ml-4">
+                                <div className="flex items-start space-x-2">
+                                  <span className="text-blue-600 mt-0.5 text-base sm:text-lg">🥄</span>
+                                  <div>
+                                    <h5 className="text-sm sm:text-base font-medium text-blue-900 mb-2">Recipe for {drink.name}</h5>
+                                    <p className="text-sm sm:text-base text-blue-800 leading-relaxed font-mono">
+                                      {recipeData[drink.name] || 'Recipe not available'}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
 
