@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { OrderContext } from "./OrderContext";
 
 const menuItems = [
@@ -50,6 +50,7 @@ const menuItems = [
 const CustomerOrderForm = () => {
   const { addOrder } = useContext(OrderContext);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const initialName = location.state?.guestName || '';
   const [name] = useState(initialName);
@@ -100,7 +101,17 @@ const CustomerOrderForm = () => {
         <div className="min-h-screen w-screen max-w-none bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex flex-col overflow-x-hidden">
       {/* Header */}
       <div className="bg-black/20 backdrop-blur-sm border-b border-white/10 flex-shrink-0 w-full">
-        <div className="px-4 sm:px-6 py-3 sm:py-4 w-full max-w-none">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 w-full max-w-none relative">
+          <button
+            onClick={() => navigate('/', { state: { guestName: name, showMenuSelection: true } })}
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-purple-200 transition-colors duration-200 flex items-center space-x-1"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            <span className="text-sm">Back</span>
+          </button>
+          
           <h1 className="text-xl sm:text-2xl font-bold text-white text-center">
             Biggie's Bar
           </h1>
