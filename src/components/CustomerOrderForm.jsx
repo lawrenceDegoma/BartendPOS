@@ -175,14 +175,11 @@ const CustomerOrderForm = () => {
                 <div className="w-8 h-8 border-2 border-amber-300 dark:border-amber-400 rounded-full flex items-center justify-center">
                   <div className="w-2 h-2 bg-amber-300 dark:bg-amber-400 rounded-full"></div>
                 </div>
-                <span>Paradise Tiki Lounge</span>
+                <span>Tiki Cove</span>
                 <div className="w-8 h-8 border-2 border-amber-300 dark:border-amber-400 rounded-full flex items-center justify-center">
                   <div className="w-2 h-2 bg-amber-300 dark:bg-amber-400 rounded-full"></div>
                 </div>
               </h1>
-              <p className="text-amber-200 dark:text-amber-300 text-xs sm:text-sm mt-2 font-light tracking-wider">
-                Escape to the Islands
-              </p>
             </div>
             <div className="w-16 sm:w-20"></div>
           </div>
@@ -380,9 +377,9 @@ const CustomerOrderForm = () => {
           <div className="space-y-4">
             <div className="text-center">
               <label className="text-amber-900 dark:text-amber-100 font-bold text-lg sm:text-xl uppercase tracking-widest block mb-2">
-                Sacred Requests
+                Special Requests
               </label>
-              <div className="text-amber-700 dark:text-amber-300 text-sm font-light">Whisper your desires to the island spirits</div>
+              <div className="text-amber-700 dark:text-amber-300 text-sm font-light">Whisper your desires</div>
             </div>
             <div className="relative">
               <div className="absolute top-2 left-2 w-4 h-4 border-2 border-amber-600 dark:border-amber-500 rounded-full opacity-30"></div>

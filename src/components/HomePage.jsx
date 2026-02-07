@@ -48,7 +48,7 @@ const HomePage = () => {
           </div>
         </div>
 
-        <h1 className="text-4xl sm:text-6xl font-bold mb-4 text-amber-900 tracking-wide relative">
+        <h1 className="text-4xl sm:text-6xl font-tiki-title mb-4 text-amber-900 tracking-wide relative">
           <div className="flex items-center justify-center space-x-3">
             <div className="w-8 h-8 border-2 border-amber-700 rounded-full flex items-center justify-center">
               <div className="w-2 h-2 bg-amber-700 rounded-full"></div>
@@ -59,7 +59,6 @@ const HomePage = () => {
             </div>
           </div>
         </h1>
-        <p className="text-amber-700 text-xl font-light mb-6">Join us for a tropical adventure</p>
         
         {/* Decorative Tiki Border */}
         <div className="flex items-center justify-center space-x-6 mb-8">
@@ -77,7 +76,7 @@ const HomePage = () => {
       
       <div className="mb-10 w-full max-w-sm relative z-10">
         <div className="text-center mb-6">
-          <label className="block mb-4 font-bold text-xl text-amber-800 uppercase tracking-wider">
+          <label className="block mb-4 font-tiki-header text-xl text-amber-800 uppercase tracking-wider">
             Your Island Name
           </label>
         </div>
@@ -89,14 +88,14 @@ const HomePage = () => {
             value={guestName}
             onChange={(e) => setGuestName(e.target.value)}
             placeholder="Enter your name..."
-            className="w-full px-12 py-4 rounded-2xl bg-stone-50 border-3 border-amber-400 text-amber-900 placeholder-amber-500 focus:border-amber-600 focus:ring-4 focus:ring-amber-200 transition-all duration-200 shadow-xl text-center font-medium text-lg relative z-10"
+            className="w-full px-12 py-4 rounded-2xl bg-stone-50 border-3 border-amber-400 text-amber-900 placeholder-amber-500 focus:border-amber-600 focus:ring-4 focus:ring-amber-200 transition-all duration-200 shadow-xl text-center font-tiki-body text-lg relative z-10"
           />
         </div>
       </div>
       
       <button
         onClick={handleGuestContinue}
-        className="mb-8 px-8 py-4 rounded-2xl bg-amber-800 hover:bg-amber-700 text-white font-bold text-lg transition-all duration-200 w-full max-w-sm shadow-2xl border-4 border-amber-600 hover:border-amber-500 active:scale-95 relative overflow-hidden"
+        className="mb-8 px-8 py-4 rounded-2xl bg-amber-800 hover:bg-amber-700 text-white font-tiki-body font-bold text-lg transition-all duration-200 w-full max-w-sm shadow-2xl border-4 border-amber-600 hover:border-amber-500 active:scale-95 relative overflow-hidden"
       >
         {/* Tiki Button Pattern */}
         <div className="absolute inset-0 opacity-20">
@@ -117,7 +116,7 @@ const HomePage = () => {
       
       <div className="text-center relative z-10">
         <p className="text-amber-600 text-base font-light max-w-md leading-relaxed">
-          Welcome to Tiki Cove where ancient spirits don't refer to our ancestors
+          Welcome to Tiki Cove where ancient spirits aren't in reference to the ancestors
         </p>
         
         {/* Bottom Decorative Elements */}

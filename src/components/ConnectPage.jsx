@@ -85,7 +85,7 @@ const ConnectPage = () => {
             </div>
             <h2 className="text-2xl font-bold text-amber-900 mb-2">Let's Connect!</h2>
             <p className="text-amber-700 font-light">
-              Thanks for enjoying the Paradise Tiki Lounge experience. Follow me on social media or support the project!
+              Thanks for enjoying the Tiki Cove experience. Follow me on social media or support the project!
             </p>
             <div className="w-16 h-1 bg-teal-500 mx-auto mt-4 rounded-full"></div>
           </div>
@@ -119,14 +119,6 @@ const ConnectPage = () => {
             ))}
           </div>
 
-          {/* Footer Message */}
-          <div className="text-center mt-8 p-4 bg-teal-50 border border-teal-200 rounded-lg">
-            <p className="text-teal-800 text-sm font-light">
-              Built with love for the tiki community. Mahalo for visiting Paradise Tiki Lounge! 
-            </p>
-          </div>
-
-          {/* Bottom spacing */}
           <div className="h-8"></div>
         </div>
       </div>

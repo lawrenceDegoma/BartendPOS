@@ -4,7 +4,7 @@
 @tailwind utilities;
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Righteous', sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -16,6 +16,28 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Tiki-themed font classes */
+.font-tiki-title {
+  font-family: 'Fredoka One', 'Righteous', cursive;
+  letter-spacing: 0.05em;
+}
+
+.font-tiki-header {
+  font-family: 'Bebas Neue', 'Righteous', sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.font-tiki-body {
+  font-family: 'Righteous', sans-serif;
+  letter-spacing: 0.025em;
+}
+
+.font-tiki-accent {
+  font-family: 'Creepster', cursive;
+  letter-spacing: 0.1em;
 }
 
 a {

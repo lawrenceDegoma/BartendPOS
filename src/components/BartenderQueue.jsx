@@ -91,7 +91,7 @@ const BartenderQueue = () => {
             </div>
             
             <div>
-              <h1 className="text-2xl sm:text-4xl font-bold text-amber-50 tracking-wider flex items-center space-x-3">
+              <h1 className="text-2xl sm:text-4xl font-tiki-title text-amber-50 tracking-wider flex items-center space-x-3">
                 <div className="w-8 h-8 border-2 border-amber-300 rounded-full flex items-center justify-center">
                   <div className="w-3 h-3 bg-amber-300 rounded-full"></div>
                 </div>
@@ -100,7 +100,7 @@ const BartenderQueue = () => {
                   <div className="w-3 h-3 bg-amber-300 rounded-full"></div>
                 </div>
               </h1>
-              <p className="text-base sm:text-lg text-amber-200 mt-2 flex items-center space-x-2">
+              <p className="text-base sm:text-lg font-tiki-body text-amber-200 mt-2 flex items-center space-x-2">
                 <div className="w-4 h-4 border border-amber-300 rounded-full"></div>
                 <span>
                   {orders.length === 0 ? "Paradise is at peace" : `${orders.length} sacred ritual${orders.length > 1 ? 's' : ''} brewing`}
@@ -112,8 +112,8 @@ const BartenderQueue = () => {
 
           {orders.length > 0 && (
             <div className="text-right bg-amber-800/50 px-4 py-3 rounded-2xl border-2 border-amber-600">
-              <div className="text-sm sm:text-base text-amber-300 font-semibold">Island Time</div>
-              <div className="text-xl sm:text-3xl font-bold text-amber-50 flex items-center space-x-2">
+              <div className="text-sm sm:text-base font-tiki-header text-amber-300 font-semibold">Island Time</div>
+              <div className="text-xl sm:text-3xl font-tiki-body font-bold text-amber-50 flex items-center space-x-2">
                 <div className="w-6 h-6 border-2 border-amber-300 rounded-full flex items-center justify-center">
                   <div className="w-2 h-2 bg-amber-300 rounded-full"></div>
                 </div>
@@ -139,7 +139,7 @@ const BartenderQueue = () => {
               <div className="w-4 h-4 bg-white rounded-full mb-2"></div>
               <div className="w-8 h-3 bg-white rounded-full"></div>
             </div>
-            <h2 className="text-2xl sm:text-4xl font-bold text-amber-900 mb-4 flex items-center justify-center space-x-3">
+            <h2 className="text-2xl sm:text-4xl font-tiki-title text-amber-900 mb-4 flex items-center justify-center space-x-3">
               <div className="w-6 h-6 border-2 border-amber-700 rounded-full flex items-center justify-center">
                 <div className="w-2 h-2 bg-amber-700 rounded-full"></div>
               </div>
@@ -148,7 +148,7 @@ const BartenderQueue = () => {
                 <div className="w-2 h-2 bg-amber-700 rounded-full"></div>
               </div>
             </h2>
-            <p className="text-lg sm:text-xl text-amber-700 max-w-md mx-auto flex items-center justify-center space-x-2">
+            <p className="text-lg sm:text-xl font-tiki-body text-amber-700 max-w-md mx-auto flex items-center justify-center space-x-2">
               <div className="w-4 h-4 border border-amber-600 rounded-full"></div>
               <span>No island spirits require your attention at this time</span>
               <div className="w-4 h-4 border border-amber-600 rounded-full"></div>
@@ -200,11 +200,11 @@ const BartenderQueue = () => {
                         <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-6 h-1 bg-amber-600 rounded-full"></div>
                       </div>
                       <div>
-                        <h3 className="text-xl sm:text-2xl font-bold text-amber-900 flex items-center space-x-2">
+                        <h3 className="text-xl sm:text-2xl font-tiki-header text-amber-900 flex items-center space-x-2">
                           <div className="w-4 h-4 border-2 border-amber-700 rounded-full"></div>
                           <span>Islander: {order.customer || `Sacred Guest #${orderIndex + 1}`}</span>
                         </h3>
-                        <div className="flex items-center space-x-4 sm:space-x-6 text-sm sm:text-base text-amber-700 mt-2">
+                        <div className="flex items-center space-x-4 sm:space-x-6 text-sm sm:text-base font-tiki-body text-amber-700 mt-2">
                           <span className="flex items-center space-x-1">
                             <div className="w-3 h-3 border border-amber-600 rounded-full"></div>
                             <span>Blessed at: {formatTime(order.timestamp)}</span>
@@ -219,7 +219,7 @@ const BartenderQueue = () => {
 
                     <button
                       onClick={() => removeOrder(order.id)}
-                      className="bg-teal-600 hover:bg-teal-700 text-white font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-2xl flex items-center space-x-3 shadow-lg hover:shadow-xl text-base sm:text-lg border-3 border-teal-600 hover:border-teal-700 transition-all duration-300 hover:scale-105"
+                      className="bg-teal-600 hover:bg-teal-700 text-white font-tiki-body font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-2xl flex items-center space-x-3 shadow-lg hover:shadow-xl text-base sm:text-lg border-3 border-teal-600 hover:border-teal-700 transition-all duration-300 hover:scale-105"
                     >
                       <div className="w-4 h-4 border-2 border-white rounded-full"></div>
                       <span>Ritual Complete</span>
@@ -228,7 +228,7 @@ const BartenderQueue = () => {
 
                   {/* Drinks List */}
                   <div className="mb-6">
-                    <h4 className="text-base sm:text-lg font-bold text-amber-800 mb-4 uppercase tracking-wider flex items-center space-x-2">
+                    <h4 className="text-base sm:text-lg font-tiki-header text-amber-800 mb-4 uppercase tracking-wider flex items-center space-x-2">
                       <div className="w-4 h-4 border-2 border-amber-700 rounded-full"></div>
                       <span>Sacred Island Elixirs ({order.items.length})</span>
                       <div className="w-4 h-4 border-2 border-amber-700 rounded-full"></div>
@@ -242,18 +242,18 @@ const BartenderQueue = () => {
                           <div key={drinkIndex} className="space-y-3">
                             <div className="flex items-center space-x-3 sm:space-x-4 p-4 sm:p-5 bg-amber-100 border-3 border-amber-600 rounded-2xl shadow-lg">
                               <div className="w-4 h-4 bg-teal-600 rounded-full flex-shrink-0 shadow-md"></div>
-                              <span className="font-bold text-amber-900 text-base sm:text-lg flex-1 flex items-center space-x-2">
+                              <span className="font-tiki-body text-amber-900 text-base sm:text-lg flex-1 flex items-center space-x-2">
                                 <div className="w-3 h-3 border border-amber-700 rounded-full"></div>
                                 <span>{drink.name || drink}</span>
                               </span>
-                              <span className="text-sm sm:text-base bg-amber-700 text-amber-100 px-3 py-2 rounded-full font-bold shadow-md">
+                              <span className="text-sm sm:text-base font-tiki-body bg-amber-700 text-amber-100 px-3 py-2 rounded-full font-bold shadow-md">
                                 #{drinkIndex + 1}
                               </span>
                               
                               {/* Recipe Button */}
                               <button
                                 onClick={() => handleShowRecipe(orderIndex, drinkIndex)}
-                                className={`px-4 py-2 text-sm sm:text-base font-bold rounded-2xl transition-all duration-300 border-3 shadow-lg hover:shadow-xl ${
+                                className={`px-4 py-2 text-sm sm:text-base font-tiki-body transition-all duration-300 border-3 shadow-lg hover:shadow-xl ${
                                   showThisRecipe
                                     ? 'bg-teal-600 text-white border-teal-600'
                                     : 'bg-amber-200 text-teal-700 border-amber-400 hover:bg-amber-300 hover:border-amber-500'
@@ -278,12 +278,12 @@ const BartenderQueue = () => {
                                     </div>
                                   </div>
                                   <div className="flex-1">
-                                    <h5 className="text-base sm:text-lg font-bold text-teal-900 mb-3 flex items-center space-x-2">
+                                    <h5 className="text-base sm:text-lg font-tiki-header text-teal-900 mb-3 flex items-center space-x-2">
                                       <div className="w-4 h-4 border border-teal-700 rounded-full"></div>
                                       <span>Sacred Recipe for {drink.name}</span>
                                       <div className="w-4 h-4 border border-teal-700 rounded-full"></div>
                                     </h5>
-                                    <p className="text-sm sm:text-base text-teal-800 leading-relaxed font-mono bg-white px-4 py-3 rounded-xl border-2 border-teal-300 shadow-md">
+                                    <p className="text-sm sm:text-base font-mono text-teal-800 leading-relaxed bg-white px-4 py-3 rounded-xl border-2 border-teal-300 shadow-md">
                                       {recipeData[drink.name] || 'Ancient recipe lost to the island mists...'}
                                     </p>
                                   </div>
@@ -311,12 +311,12 @@ const BartenderQueue = () => {
                           </div>
                         </div>
                         <div className="flex-1">
-                          <h5 className="text-base sm:text-lg font-bold text-amber-900 mb-3 flex items-center space-x-2">
+                          <h5 className="text-base sm:text-lg font-tiki-header text-amber-900 mb-3 flex items-center space-x-2">
                             <div className="w-4 h-4 border border-amber-700 rounded-full"></div>
                             <span>Sacred Island Wishes</span>
                             <div className="w-4 h-4 border border-amber-700 rounded-full"></div>
                           </h5>
-                          <p className="text-sm sm:text-base text-amber-800 leading-relaxed bg-amber-50 px-4 py-3 rounded-xl border-2 border-amber-400 shadow-md font-medium">
+                          <p className="text-sm sm:text-base font-tiki-body text-amber-800 leading-relaxed bg-amber-50 px-4 py-3 rounded-xl border-2 border-amber-400 shadow-md">
                             {order.notes}
                           </p>
                         </div>
