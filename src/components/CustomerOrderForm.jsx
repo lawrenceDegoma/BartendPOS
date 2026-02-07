@@ -1,69 +1,88 @@
 import React, { useState, useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { OrderContext } from "./OrderContext";
 
 const menuItems = [
   { 
-    name: 'Long Island Iced Tea', 
-    emoji: '🍹', 
-    category: 'Strong',
-    description: 'A potent mix of vodka, rum, gin, tequila, and triple sec with cola. Despite the name, no tea involved - just a smooth, strong cocktail that tastes surprisingly refreshing!',
-    recipe: '0.5 oz vodka, 0.5 oz gin, 0.5 oz rum, 0.5 oz tequila, 0.5 oz Triple sec, 0.5 oz simple syrup, 0.5 oz lemon juice, top with coke, lemon wedge garnish'
-  },
-  { 
-    name: 'Tokyo Tea', 
-    emoji: '🍵', 
-    category: 'Strong',
-    description: 'Similar to Long Island but with the use of a melon liqueur and sprite, giving it a beautiful green color and a slightly sweeter, fruity taste. Still packs a punch!',
-    recipe: '0.5 oz vodka, 0.5 oz gin, 0.5 oz rum, 0.5 oz tequila, 0.5 oz midori, 2 oz sour mix, top with sprite, lemon or lime garnish'
-  },
-  { 
-    name: 'Midori Sour', 
-    emoji: '🍸', 
+    name: 'Mai Tai', 
     category: 'Classic',
-    description: 'A vibrant neon-green cocktail known for its sweet and sour flavor profile.',
-    recipe: '1.5 oz midori, 2 oz sour mix, 1.5 oz lime juice, top with sprite'
+    description: 'The quintessential tiki cocktail with aged rum, orange curaçao, and orgeat syrup. Complex, balanced, and transportive to tropical shores.',
+    recipe: '1 oz aged rum, 1 oz white rum, 0.5 oz orange curaçao, 0.5 oz orgeat syrup, 1 oz lime juice, mint sprig garnish'
   },
   { 
-    name: 'Moscow Mule', 
-    emoji: '🥃', 
+    name: 'Zombie', 
+    category: 'Strong',
+    description: 'Don Beachcomber\'s legendary creation featuring three types of rum and secret ingredients. Dangerously smooth and potent - limit two per person!',
+    recipe: '1 oz white rum, 1 oz gold rum, 1 oz dark rum, 0.5 oz apricot liqueur, 1 oz lime juice, 1 oz pineapple juice, grenadine dash'
+  },
+  { 
+    name: 'Piña Colada', 
     category: 'Classic',
-    description: 'Vodka, spicy ginger beer, and fresh lime juice served in a copper mug. Refreshing, zesty, and has a nice kick from the ginger.',
-    recipe: '2 oz vodka, 0.5 oz lime juice, 4 oz ginger beer'
+    description: 'Creamy tropical bliss with coconut cream, pineapple juice, and white rum. The ultimate vacation cocktail served frozen or on the rocks.',
+    recipe: '2 oz white rum, 1 oz coconut cream, 3 oz pineapple juice, pineapple wedge garnish'
   },
   { 
-    name: 'Lemon Drop', 
-    emoji: '🍋', 
-    category: 'Shot',
-    description: 'Vodka-based cocktail with fresh lemon juice and simple syrup. Sweet, tart, and goes down dangerously smooth!',
-    recipe: 'From bottle'
+    name: 'Scorpion Bowl', 
+    category: 'Strong',
+    description: 'A communal drink designed for sharing, featuring rum, brandy, and tropical juices. Traditionally served with long straws in a large bowl.',
+    recipe: '2 oz light rum, 1 oz brandy, 2 oz orange juice, 2 oz lemon juice, 1 oz orgeat syrup'
   },
   { 
-    name: 'Green Tea Shot', 
-    emoji: '🟢', 
-    category: 'Shot',
-    description: 'A fun party shot mixing whiskey, peach schnapps, sour mix, and Sprite. Tastes like sweet tea but with a boozy twist. Perfect for group toasts!',
-    recipe: 'From bottle'
+    name: 'Blue Hawaiian', 
+    category: 'Tropical',
+    description: 'A stunning blue cocktail with rum, blue curaçao, and tropical juices. As beautiful as the islands it represents.',
+    recipe: '1 oz light rum, 1 oz blue curaçao, 2 oz pineapple juice, 1 oz cream of coconut, 0.5 oz lime juice'
+  },
+  { 
+    name: 'Navy Grog', 
+    category: 'Strong',
+    description: 'A potent sailor\'s drink with three rums, lime, and grapefruit. Served over crushed ice with a cone of ice in the center.',
+    recipe: '1 oz light rum, 1 oz dark rum, 1 oz demerara rum, 0.75 oz lime juice, 0.75 oz grapefruit juice, 0.75 oz honey syrup'
   },
 ];
 
 const CustomerOrderForm = () => {
   const { addOrder } = useContext(OrderContext);
   const location = useLocation();
+  const navigate = useNavigate();
 
-  const initialName = location.state?.guestName || '';
+  // Get initial name from location state or sessionStorage
+  const getInitialName = () => {
+    const locationName = location.state?.guestName;
+    const storedName = sessionStorage.getItem('guestName');
+    
+    if (locationName) {
+      // If coming from navigation with state, store it and use it
+      sessionStorage.setItem('guestName', locationName);
+      return locationName;
+    }
+    
+    // Otherwise use stored name or empty string
+    return storedName || '';
+  };
+
+  const initialName = getInitialName();
   const [name] = useState(initialName);
 
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [itemQuantities, setItemQuantities] = useState({});
   const [notes, setNotes] = useState('');
   const [showDescription, setShowDescription] = useState(null);
 
-  const handleItemToggle = (item) => {
-    setSelectedItems((prev) =>
-      prev.includes(item.name)
-        ? prev.filter((i) => i !== item.name)
-        : [...prev, item.name]
-    );
+  const handleQuantityChange = (itemName, change) => {
+    setItemQuantities((prev) => {
+      const currentQuantity = prev[itemName] || 0;
+      const newQuantity = Math.max(0, currentQuantity + change);
+      
+      if (newQuantity === 0) {
+        const { [itemName]: removed, ...rest } = prev;
+        return rest;
+      }
+      
+      return {
+        ...prev,
+        [itemName]: newQuantity
+      };
+    });
   };
 
   const handleShowDescription = (index) => {
@@ -71,80 +90,169 @@ const CustomerOrderForm = () => {
   };
 
   const handleSubmit = () => {
-    if (selectedItems.length === 0) {
-      alert('Please select at least one drink! 🍹');
+    const selectedItemNames = Object.keys(itemQuantities);
+    if (selectedItemNames.length === 0) {
+      alert('Please select at least one drink!');
       return;
     }
 
-    const drinksData = selectedItems.map((drinkName) =>
-      menuItems.find((item) => item.name === drinkName)
-    );
+    // Create items array with quantities
+    const drinksData = [];
+    selectedItemNames.forEach((itemName) => {
+      const menuItem = menuItems.find((item) => item.name === itemName);
+      const quantity = itemQuantities[itemName];
+      
+      // Add the item multiple times based on quantity
+      for (let i = 0; i < quantity; i++) {
+        drinksData.push(menuItem);
+      }
+    });
 
     const order = {
       id: Date.now() + Math.random(),
       customer: name || "Anonymous",
       items: drinksData,
       notes,
+      timestamp: Date.now(),
     };
 
     addOrder(order);
 
     // Reset form with a slight delay for visual feedback
     setTimeout(() => {
-      setSelectedItems([]);
+      setItemQuantities({});
       setNotes('');
     }, 300);
   };
 
   return (
-        <div className="min-h-screen w-screen max-w-none bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex flex-col overflow-x-hidden">
+    <div className="min-h-screen w-screen max-w-none bg-stone-100 dark:bg-stone-900 flex flex-col overflow-x-hidden relative">
+      {/* Bamboo Pattern Background */}
+      <div className="absolute inset-0 opacity-5 dark:opacity-10 pointer-events-none">
+        <div className="w-full h-full" style={{
+          backgroundImage: `repeating-linear-gradient(
+            90deg,
+            #8B4513 0px,
+            #8B4513 8px,
+            #A0522D 8px,
+            #A0522D 12px,
+            #8B4513 12px,
+            #8B4513 20px,
+            transparent 20px,
+            transparent 40px
+          )`,
+          backgroundSize: '40px 100%'
+        }}></div>
+      </div>
+
       {/* Header */}
-      <div className="bg-black/20 backdrop-blur-sm border-b border-white/10 flex-shrink-0 w-full">
-        <div className="px-4 sm:px-6 py-3 sm:py-4 w-full max-w-none">
-          <h1 className="text-xl sm:text-2xl font-bold text-white text-center">
-            Biggie's Bar
-          </h1>
-          <p className="text-purple-200 text-center text-xs sm:text-sm mt-1">
-            What's your poison tonight?
-          </p>
+      <div className="bg-amber-900 dark:bg-amber-800 border-b-4 border-amber-800 dark:border-amber-700 flex-shrink-0 w-full relative overflow-hidden">
+        {/* Tiki Mask Pattern */}
+        <div className="absolute top-0 right-0 w-20 h-20 opacity-20 dark:opacity-30">
+          <svg viewBox="0 0 100 100" className="w-full h-full text-amber-700 dark:text-amber-600">
+            <path d="M50 10 L35 25 L35 40 L25 50 L35 60 L35 75 L50 90 L65 75 L65 60 L75 50 L65 40 L65 25 Z" fill="currentColor"/>
+            <circle cx="40" cy="35" r="3" fill="#000"/>
+            <circle cx="60" cy="35" r="3" fill="#000"/>
+            <path d="M45 50 L50 55 L55 50" stroke="#000" strokeWidth="2" fill="none"/>
+          </svg>
+        </div>
+        
+        <div className="px-4 sm:px-6 py-4 sm:py-5 w-full max-w-none relative z-10">
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => {
+                // Clear stored guest name when going back to home
+                sessionStorage.removeItem('guestName');
+                navigate('/');
+              }}
+              className="text-amber-800 dark:text-amber-300 hover:text-amber-900 dark:hover:text-amber-200 transition-colors duration-200 flex items-center space-x-2 bg-amber-800/30 dark:bg-amber-700/30 px-3 py-2 rounded-full border border-amber-700/50 dark:border-amber-600/50"
+            >
+              <span>←</span>
+              <span className="text-sm sm:text-base">Back</span>
+            </button>
+            <div className="text-center flex-1">
+              <h1 className="text-xl sm:text-2xl font-bold text-amber-50 dark:text-amber-100 tracking-wide flex items-center justify-center space-x-3">
+                <div className="w-8 h-8 border-2 border-amber-300 dark:border-amber-400 rounded-full flex items-center justify-center">
+                  <div className="w-2 h-2 bg-amber-300 dark:bg-amber-400 rounded-full"></div>
+                </div>
+                <span>Paradise Tiki Lounge</span>
+                <div className="w-8 h-8 border-2 border-amber-300 dark:border-amber-400 rounded-full flex items-center justify-center">
+                  <div className="w-2 h-2 bg-amber-300 dark:bg-amber-400 rounded-full"></div>
+                </div>
+              </h1>
+              <p className="text-amber-200 dark:text-amber-300 text-xs sm:text-sm mt-2 font-light tracking-wider">
+                Escape to the Islands
+              </p>
+            </div>
+            <div className="w-16 sm:w-20"></div>
+          </div>
         </div>
       </div>
 
       {/* Main Content - Scrollable */}
-      <div className="flex-1 overflow-y-auto w-full">
-        <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-4 sm:space-y-6 pb-safe w-full max-w-none">
-          {/* Drink Selection */}
-          <div className="space-y-3 sm:space-y-4">
-            <label className="text-white font-medium text-xs sm:text-sm uppercase tracking-wide">
-              Choose Your Drinks
-            </label>
+      <div className="flex-1 overflow-y-auto w-full bg-stone-100 dark:bg-stone-900 relative">
+        <div className="px-4 sm:px-6 py-6 sm:py-8 space-y-6 sm:space-y-8 pb-safe w-full max-w-none relative z-10">
+          {/* Tropical Border Decoration */}
+          <div className="flex items-center justify-center space-x-4 py-4">
+            <div className="h-px bg-amber-600 dark:bg-amber-500 flex-1 max-w-20"></div>
+            <div className="w-6 h-6 border-2 border-amber-600 dark:border-amber-500 rounded-full flex items-center justify-center">
+              <div className="w-2 h-2 bg-amber-600 dark:bg-amber-500 rounded-full"></div>
+            </div>
+            <div className="h-px bg-amber-600 dark:bg-amber-500 flex-1 max-w-20"></div>
+          </div>
 
-            <div className="grid gap-2 sm:gap-3 landscape:grid-cols-2 landscape:gap-3">
+          {/* Drink Selection */}
+          <div className="space-y-4 sm:space-y-6">
+            <div className="text-center">
+              <label className="text-amber-900 dark:text-amber-100 font-bold text-lg sm:text-xl uppercase tracking-widest block mb-2">
+                Sacred Libations
+              </label>
+              <div className="text-amber-700 dark:text-amber-300 text-sm font-light">Choose your island elixir</div>
+            </div>
+
+            <div className="grid gap-4 sm:gap-6">
               {menuItems.map((item, index) => {
-                const isSelected = selectedItems.includes(item.name);
+                const quantity = itemQuantities[item.name] || 0;
+                const isSelected = quantity > 0;
                 const showDesc = showDescription === index;
 
                 return (
-                  <div key={index} className="space-y-2">
+                  <div key={index} className="space-y-3">
                     <div
-                      className={`p-3 sm:p-4 rounded-xl border-2 transition-all duration-200 ${
+                      className={`relative p-4 sm:p-6 rounded-2xl border-3 transition-all duration-300 transform hover:scale-102 ${
                         isSelected
-                          ? 'bg-gradient-to-r from-purple-500 to-pink-500 border-purple-400 shadow-lg shadow-purple-500/25'
-                          : 'bg-white/10 border-white/20 hover:bg-white/20 hover:border-purple-300'
-                      } backdrop-blur-sm touch-manipulation`}
+                          ? 'bg-amber-800 dark:bg-amber-700 border-amber-600 dark:border-amber-500 shadow-2xl text-white'
+                          : 'bg-stone-50 dark:bg-stone-800 border-amber-300 dark:border-amber-600 hover:bg-amber-50 dark:hover:bg-stone-700 hover:border-amber-500 dark:hover:border-amber-500 shadow-lg'
+                      } touch-manipulation overflow-hidden`}
                     >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-2 sm:space-x-3 flex-1">
-                          <span className="text-xl sm:text-2xl flex-shrink-0">{item.emoji}</span>
+                      {/* Tiki Pattern Corner */}
+                      <div className="absolute top-0 right-0 w-12 h-12 opacity-20 dark:opacity-30">
+                        <div className="w-full h-full bg-amber-900 dark:bg-amber-800 transform rotate-45 translate-x-6 -translate-y-6"></div>
+                        <div className="absolute top-2 right-2 w-2 h-2 bg-amber-700 dark:bg-amber-600 rounded-full"></div>
+                      </div>
+                      
+                      <div className="flex items-center justify-between relative z-10">
+                        <div className="flex items-center space-x-4 flex-1 min-w-0">
+                          {/* Tiki Totem Icon */}
+                          <div className={`w-12 h-16 flex-shrink-0 rounded-lg border-2 ${
+                            isSelected ? 'border-white bg-amber-700 dark:bg-amber-600' : 'border-amber-600 dark:border-amber-500 bg-amber-100 dark:bg-amber-900'
+                          } flex flex-col items-center justify-center relative`}>
+                            <div className={`w-3 h-3 rounded-full ${isSelected ? 'bg-white' : 'bg-amber-800 dark:bg-amber-300'} mb-1`}></div>
+                            <div className={`w-2 h-2 rounded-full ${isSelected ? 'bg-white' : 'bg-amber-800 dark:bg-amber-300'}`}></div>
+                            <div className={`w-4 h-1 ${isSelected ? 'bg-white' : 'bg-amber-800 dark:bg-amber-300'} mt-1 rounded-full`}></div>
+                          </div>
+                          
                           <div className="text-left flex-1 min-w-0">
-                            <h3 className={`font-semibold text-white text-sm sm:text-base leading-tight`}>
+                            <h3 className={`font-bold text-lg sm:text-xl leading-tight mb-2 ${
+                              isSelected ? 'text-white' : 'text-amber-900 dark:text-amber-100'
+                            }`}>
                               {item.name}
                             </h3>
                             <span
-                              className={`text-xs px-2 py-1 rounded-full inline-block mt-1 ${
+                              className={`text-xs px-4 py-2 rounded-full inline-block font-semibold uppercase tracking-wide border-2 ${
                                 isSelected
-                                  ? 'bg-white/20 text-white'
-                                  : 'bg-purple-500/30 text-purple-200'
+                                  ? 'bg-amber-600 dark:bg-amber-500 text-white border-amber-500 dark:border-amber-400'
+                                  : 'bg-amber-200 dark:bg-amber-800 text-amber-800 dark:text-amber-200 border-amber-400 dark:border-amber-600'
                               }`}
                             >
                               {item.category}
@@ -152,7 +260,7 @@ const CustomerOrderForm = () => {
                           </div>
                         </div>
 
-                        <div className="flex items-center space-x-2 flex-shrink-0">
+                        <div className="flex items-center space-x-3 flex-shrink-0">
                           {/* Info Button */}
                           <button
                             type="button"
@@ -160,40 +268,75 @@ const CustomerOrderForm = () => {
                               e.stopPropagation();
                               handleShowDescription(index);
                             }}
-                            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 flex items-center justify-center transition-all duration-200 touch-manipulation !bg-black !border-gray-700 !text-white hover:!bg-gray-900 active:!bg-gray-800"
+                            className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border-3 flex items-center justify-center transition-all duration-200 touch-manipulation ${
+                              isSelected 
+                                ? 'bg-amber-600 dark:bg-amber-500 border-amber-500 dark:border-amber-400 text-white hover:bg-amber-500 dark:hover:bg-amber-400' 
+                                : 'bg-stone-200 dark:bg-stone-700 border-amber-400 dark:border-amber-600 text-amber-800 dark:text-amber-200 hover:bg-amber-200 dark:hover:bg-stone-600'
+                            }`}
                             title="View description"
                           >
-                            <span className="text-xs sm:text-sm font-bold">i</span>
+                            <span className="text-sm sm:text-base font-bold">i</span>
                           </button>
 
-                          {/* Select Button */}
-                          <button
-                            type="button"
-                            onClick={() => handleItemToggle(item)}
-                            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 flex items-center justify-center transition-all duration-200 touch-manipulation !bg-black !border-gray-700 !text-white hover:!bg-gray-900 active:!bg-gray-800"
-                          >
-                            {isSelected && (
-                              <svg
-                                className="w-3 h-3 sm:w-4 sm:h-4 text-green-400"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
+                          {/* Conditional Controls */}
+                          {quantity === 0 ? (
+                            /* Initial Add Button */
+                            <button
+                              type="button"
+                              onClick={() => handleQuantityChange(item.name, 1)}
+                              className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border-3 flex items-center justify-center transition-all duration-200 touch-manipulation bg-amber-200 dark:bg-amber-800 border-amber-500 dark:border-amber-600 text-amber-800 dark:text-amber-200 hover:bg-amber-300 dark:hover:bg-amber-700"
+                            >
+                              <div className="text-lg font-bold">+</div>
+                            </button>
+                          ) : (
+                            /* Expanded Quantity Controls */
+                            <div className="flex items-center space-x-2">
+                              {/* Minus Button */}
+                              <button
+                                type="button"
+                                onClick={() => handleQuantityChange(item.name, -1)}
+                                className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border-3 flex items-center justify-center transition-all duration-200 touch-manipulation ${
+                                  isSelected 
+                                    ? 'bg-amber-600 dark:bg-amber-500 border-amber-500 dark:border-amber-400 text-white hover:bg-amber-500 dark:hover:bg-amber-400' 
+                                    : 'bg-amber-200 dark:bg-amber-800 border-amber-500 dark:border-amber-600 text-amber-800 dark:text-amber-200 hover:bg-amber-300 dark:hover:bg-amber-700'
+                                }`}
                               >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
-                            )}
-                          </button>
+                                <span className="text-lg font-bold">−</span>
+                              </button>
+
+                              {/* Quantity Display */}
+                              <div className={`min-w-12 h-10 sm:h-12 px-3 rounded-xl border-3 flex items-center justify-center ${
+                                isSelected 
+                                  ? 'bg-white dark:bg-stone-100 border-amber-200 dark:border-amber-300 text-amber-800 dark:text-amber-900' 
+                                  : 'bg-amber-100 dark:bg-amber-900 border-amber-400 dark:border-amber-600 text-amber-800 dark:text-amber-200'
+                              }`}>
+                                <span className="text-base sm:text-lg font-bold">{quantity}</span>
+                              </div>
+
+                              {/* Plus Button */}
+                              <button
+                                type="button"
+                                onClick={() => handleQuantityChange(item.name, 1)}
+                                className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border-3 flex items-center justify-center transition-all duration-200 touch-manipulation ${
+                                  isSelected 
+                                    ? 'bg-white dark:bg-stone-100 border-amber-200 dark:border-amber-300 text-amber-800 dark:text-amber-900 hover:bg-amber-100 dark:hover:bg-stone-200' 
+                                    : 'bg-amber-200 dark:bg-amber-800 border-amber-500 dark:border-amber-600 text-amber-800 dark:text-amber-200 hover:bg-amber-300 dark:hover:bg-amber-700'
+                                }`}
+                              >
+                                <span className="text-lg font-bold">+</span>
+                              </button>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
 
                     {/* Description Panel */}
                     {showDesc && (
-                      <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-400/30 rounded-xl p-3 sm:p-4 backdrop-blur-sm animate-in slide-in-from-top-2 duration-300">
-                        <p className="text-blue-100 text-xs sm:text-sm leading-relaxed">
+                      <div className="bg-stone-200 dark:bg-stone-700 border-2 border-amber-400 dark:border-amber-600 rounded-xl p-4 sm:p-6 animate-in slide-in-from-top-2 duration-300 relative">
+                        <div className="absolute top-2 left-2 w-4 h-4 border-2 border-amber-600 dark:border-amber-500 rounded-full opacity-30"></div>
+                        <div className="absolute bottom-2 right-2 w-4 h-4 border-2 border-amber-600 dark:border-amber-500 rounded-full opacity-30"></div>
+                        <p className="text-amber-900 dark:text-amber-100 text-sm sm:text-base leading-relaxed font-medium relative z-10">
                           {item.description}
                         </p>
                       </div>
@@ -204,49 +347,117 @@ const CustomerOrderForm = () => {
             </div>
           </div>
 
+          {/* Tropical Border Decoration */}
+          <div className="flex items-center justify-center space-x-4 py-4">
+            <div className="h-px bg-amber-600 dark:bg-amber-500 flex-1 max-w-20"></div>
+            <div className="w-6 h-6 border-2 border-amber-600 dark:border-amber-500 rounded-full flex items-center justify-center">
+              <div className="w-2 h-2 bg-amber-600 dark:bg-amber-500 rounded-full"></div>
+            </div>
+            <div className="h-px bg-amber-600 dark:bg-amber-500 flex-1 max-w-20"></div>
+          </div>
+
           {/* Selected Items Counter */}
-          {selectedItems.length > 0 && (
-            <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-400/30 rounded-xl p-3 sm:p-4 backdrop-blur-sm">
-              <p className="text-green-200 text-xs sm:text-sm font-medium">
-                🎉 {selectedItems.length} drink{selectedItems.length > 1 ? 's' : ''} selected
-              </p>
+          {Object.keys(itemQuantities).length > 0 && (
+            <div className="bg-amber-100 dark:bg-amber-900 border-3 border-amber-500 dark:border-amber-600 rounded-2xl p-4 sm:p-6 shadow-xl relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-2 bg-amber-400 dark:bg-amber-500"></div>
+              <div className="absolute top-2 right-4 w-6 h-6 border-2 border-amber-700 dark:border-amber-400 rounded-full opacity-30"></div>
+              <div className="text-center relative z-10">
+                <p className="text-amber-900 dark:text-amber-100 text-base sm:text-lg font-bold mb-2">
+                  {Object.values(itemQuantities).reduce((sum, qty) => sum + qty, 0)} Sacred Elixir{Object.values(itemQuantities).reduce((sum, qty) => sum + qty, 0) > 1 ? 's' : ''} Selected
+                </p>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {Object.entries(itemQuantities).map(([itemName, qty]) => (
+                    <span key={itemName} className="bg-amber-600 dark:bg-amber-700 text-white dark:text-amber-100 px-3 py-1 rounded-full text-sm font-semibold">
+                      {itemName} × {qty}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
 
           {/* Special Notes */}
-          <div className="space-y-2">
-            <label className="text-white font-medium text-xs sm:text-sm uppercase tracking-wide">
-              Special Requests
-            </label>
-            <textarea
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              placeholder="Extra lime, no ice, make it strong... 😉"
-              rows="2"
-              className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:bg-white/20 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 transition-all duration-200 backdrop-blur-sm resize-none text-sm sm:text-base touch-manipulation"
-            />
+          <div className="space-y-4">
+            <div className="text-center">
+              <label className="text-amber-900 dark:text-amber-100 font-bold text-lg sm:text-xl uppercase tracking-widest block mb-2">
+                Sacred Requests
+              </label>
+              <div className="text-amber-700 dark:text-amber-300 text-sm font-light">Whisper your desires to the island spirits</div>
+            </div>
+            <div className="relative">
+              <div className="absolute top-2 left-2 w-4 h-4 border-2 border-amber-600 dark:border-amber-500 rounded-full opacity-30"></div>
+              <div className="absolute bottom-2 right-2 w-4 h-4 border-2 border-amber-600 dark:border-amber-500 rounded-full opacity-30"></div>
+              <textarea
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Extra rum, coconut rim, served in a sacred vessel..."
+                rows="3"
+                className="w-full px-6 sm:px-8 py-4 sm:py-6 bg-stone-50 dark:bg-stone-800 border-3 border-amber-400 dark:border-amber-600 rounded-2xl text-amber-900 dark:text-amber-100 placeholder-amber-600 dark:placeholder-amber-400 focus:bg-white dark:focus:bg-stone-700 focus:border-amber-600 dark:focus:border-amber-500 focus:ring-4 focus:ring-amber-200 dark:focus:ring-amber-800 transition-all duration-200 resize-none text-sm sm:text-base touch-manipulation shadow-lg font-medium relative z-10"
+              />
+            </div>
           </div>
 
           {/* Submit Button */}
+          <div className="relative">
+            <button
+              onClick={handleSubmit}
+              disabled={Object.keys(itemQuantities).length === 0}
+              className={`w-full py-6 sm:py-8 rounded-2xl font-bold text-xl sm:text-2xl transition-all duration-300 transform active:scale-95 touch-manipulation shadow-2xl border-4 relative overflow-hidden ${
+                Object.keys(itemQuantities).length > 0
+                  ? 'bg-gradient-to-r from-amber-700 to-amber-800 dark:from-amber-600 dark:to-amber-700 text-white border-amber-500 dark:border-amber-400 hover:from-amber-600 hover:to-amber-700 dark:hover:from-amber-500 dark:hover:to-amber-600 hover:border-amber-400 dark:hover:border-amber-300 ring-4 ring-amber-300/50 dark:ring-amber-500/50'
+                  : 'bg-stone-300 dark:bg-stone-600 border-stone-400 dark:border-stone-500 text-stone-500 dark:text-stone-400 cursor-not-allowed'
+              }`}
+            >
+              {/* Tiki Pattern Overlay */}
+              <div className="absolute inset-0 opacity-20">
+                <div className="absolute top-3 left-6 w-8 h-8 border-3 border-current rounded-full animate-pulse"></div>
+                <div className="absolute top-3 right-6 w-8 h-8 border-3 border-current rounded-full animate-pulse delay-300"></div>
+                <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 w-12 h-3 bg-current rounded-full animate-pulse delay-150"></div>
+              </div>
+              <div className="relative z-10 flex items-center justify-center space-x-4">
+                {Object.keys(itemQuantities).length > 0 ? (
+                  <>
+                    <div className="w-8 h-8 border-3 border-white rounded-full flex items-center justify-center animate-pulse">
+                      <div className="w-3 h-3 bg-white rounded-full"></div>
+                    </div>
+                    <span className="uppercase tracking-wider">Send to Sacred Tiki Bar</span>
+                    <div className="w-8 h-8 border-3 border-white rounded-full flex items-center justify-center animate-pulse">
+                      <div className="w-3 h-3 bg-white rounded-full"></div>
+                    </div>
+                  </>
+                ) : (
+                  <span>Choose Your Island Elixir First</span>
+                )}
+              </div>
+            </button>
+          </div>
+
+          {/* Connect Page Link */}
           <button
-            onClick={handleSubmit}
-            disabled={selectedItems.length === 0}
-            className={`w-full py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg transition-all duration-200 transform active:scale-95 touch-manipulation ${
-              selectedItems.length > 0
-                ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg shadow-pink-500/25 hover:from-pink-600 hover:to-purple-700'
-                : '!bg-black !border !border-gray-700 !text-white cursor-not-allowed'
-            }`}
+            onClick={() => {
+              // Store the current user name before navigating
+              if (name) {
+                sessionStorage.setItem('guestName', name);
+              }
+              navigate('/connect');
+            }}
+            className="w-full py-3 sm:py-4 rounded-xl font-medium text-sm sm:text-base transition-all duration-200 transform active:scale-98 touch-manipulation bg-transparent dark:bg-transparent hover:bg-stone-200 dark:hover:bg-stone-800 text-amber-700 dark:text-amber-300 border-2 border-amber-400 dark:border-amber-500 hover:border-amber-500 dark:hover:border-amber-400 shadow-md hover:shadow-lg"
           >
-            {selectedItems.length > 0 ? (
-              <span className="flex items-center justify-center space-x-2">
-                <span>🍽️</span>
-                <span>Send My Order</span>
-                <span>🎊</span>
-              </span>
-            ) : (
-              'Select drinks to continue'
-            )}
+            <div className="flex items-center justify-center space-x-2 opacity-80 hover:opacity-100">
+              <div className="w-3 h-3 border border-current rounded-full"></div>
+              <span>Connect with Island Creator</span>
+              <div className="w-3 h-3 border border-current rounded-full"></div>
+            </div>
           </button>
+
+          {/* Bottom Tropical Border */}
+          <div className="flex items-center justify-center space-x-4 py-6">
+            <div className="h-px bg-amber-600 dark:bg-amber-500 flex-1 max-w-20"></div>
+            <div className="w-6 h-6 border-2 border-amber-600 dark:border-amber-500 rounded-full flex items-center justify-center">
+              <div className="w-2 h-2 bg-amber-600 dark:bg-amber-500 rounded-full"></div>
+            </div>
+            <div className="h-px bg-amber-600 dark:bg-amber-500 flex-1 max-w-20"></div>
+          </div>
 
           {/* Bottom safe area for mobile browsers */}
           <div className="h-4 sm:h-8"></div>

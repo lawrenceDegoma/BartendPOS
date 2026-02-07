@@ -3,12 +3,12 @@ import { OrderContext } from "./OrderContext.jsx";
 
 // Import recipes from CustomerOrderForm data
 const recipeData = {
-  'Long Island Iced Tea': '0.5 oz vodka, 0.5 oz gin, 0.5 oz rum, 0.5 oz tequila, 0.5 oz Triple sec, 0.5 oz simple syrup, 0.5 oz lemon juice, top with coke, lemon wedge garnish',
-  'Tokyo Tea': '0.5 oz vodka, 0.5 oz gin, 0.5 oz rum, 0.5 oz tequila, 0.5 oz midori, 2 oz sour mix, top with sprite, lemon or lime garnish',
-  'Midori Sour': '1.5 oz midori, 2 oz sour mix, 1.5 oz lime juice, top with sprite',
-  'Moscow Mule': '2 oz vodka, 0.5 oz lime juice, 4 oz ginger beer',
-  'Lemon Drop': 'From bottle',
-  'Green Tea Shot': 'From bottle'
+  'Mai Tai': '1 oz aged rum, 1 oz white rum, 0.5 oz orange curaçao, 0.5 oz orgeat syrup, 1 oz lime juice, mint sprig garnish',
+  'Zombie': '1 oz white rum, 1 oz gold rum, 1 oz dark rum, 0.5 oz apricot liqueur, 1 oz lime juice, 1 oz pineapple juice, grenadine dash',
+  'Piña Colada': '2 oz white rum, 1 oz coconut cream, 3 oz pineapple juice, pineapple wedge garnish',
+  'Scorpion Bowl': '2 oz light rum, 1 oz brandy, 2 oz orange juice, 2 oz lemon juice, 1 oz orgeat syrup',
+  'Blue Hawaiian': '1 oz light rum, 1 oz blue curaçao, 2 oz pineapple juice, 1 oz cream of coconut, 0.5 oz lime juice',
+  'Navy Grog': '1 oz light rum, 1 oz dark rum, 1 oz demerara rum, 0.75 oz lime juice, 0.75 oz grapefruit juice, 0.75 oz honey syrup'
 };
 
 const BartenderQueue = () => {
@@ -39,9 +39,9 @@ const BartenderQueue = () => {
     const orderTime = new Date(timestamp);
     const diffMinutes = Math.floor((now - orderTime) / (1000 * 60));
     
-    if (diffMinutes >= 10) return "border-l-red-500 bg-red-50/50";
-    if (diffMinutes >= 5) return "border-l-orange-400 bg-orange-50/50";
-    return "border-l-green-500 bg-white";
+    if (diffMinutes >= 10) return "border-l-red-500 bg-red-50 border border-red-200";
+    if (diffMinutes >= 5) return "border-l-amber-400 bg-amber-50 border border-amber-200";
+    return "border-l-teal-500 bg-white border border-gray-200";
   };
 
   const handleShowRecipe = (orderIndex, drinkIndex) => {
@@ -50,27 +50,74 @@ const BartenderQueue = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 w-screen overflow-x-hidden">
+    <div className="min-h-screen bg-stone-100 w-screen overflow-x-hidden relative">
+      {/* Bamboo Pattern Background */}
+      <div className="absolute inset-0 opacity-5 pointer-events-none">
+        <div className="w-full h-full" style={{
+          backgroundImage: `repeating-linear-gradient(
+            90deg,
+            #8B4513 0px,
+            #8B4513 8px,
+            #A0522D 8px,
+            #A0522D 12px,
+            #8B4513 12px,
+            #8B4513 20px,
+            transparent 20px,
+            transparent 40px
+          )`,
+          backgroundSize: '40px 100%'
+        }}></div>
+      </div>
+
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-full px-4 sm:px-6 md:px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-2xl sm:text-3xl">🍹</span>
+      <div className="bg-amber-900 shadow-2xl border-b-4 border-amber-800 sticky top-0 z-10 relative overflow-hidden">
+        {/* Tiki Pattern Background */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-2 left-10 w-8 h-8 border-2 border-amber-600 rounded-full"></div>
+          <div className="absolute top-4 right-16 w-6 h-6 border-2 border-amber-600 rounded-full"></div>
+          <div className="absolute bottom-2 left-1/3 w-10 h-2 bg-amber-600 rounded-full"></div>
+          <div className="absolute bottom-2 right-1/3 w-10 h-2 bg-amber-600 rounded-full"></div>
+        </div>
+
+        <div className="max-w-full px-4 sm:px-6 md:px-8 py-6 flex items-center justify-between relative z-10">
+          <div className="flex items-center space-x-6">
+            {/* Tiki Totem Icon */}
+            <div className="w-16 h-20 sm:w-20 sm:h-24 bg-amber-700 rounded-2xl flex flex-col items-center justify-center shadow-2xl border-3 border-amber-600 relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-6 bg-amber-800 rounded-t-2xl"></div>
+              <div className="w-4 h-4 bg-amber-200 rounded-full mb-1 relative z-10"></div>
+              <div className="w-3 h-3 bg-amber-200 rounded-full mb-1 relative z-10"></div>
+              <div className="w-5 h-2 bg-amber-200 rounded-full relative z-10"></div>
+              <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-2 bg-amber-600 rounded-full"></div>
             </div>
+            
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Bartender Queue</h1>
-              <p className="text-sm sm:text-base text-gray-600">
-                {orders.length === 0 ? "No pending orders" : `${orders.length} order${orders.length > 1 ? 's' : ''} in queue`}
+              <h1 className="text-2xl sm:text-4xl font-bold text-amber-50 tracking-wider flex items-center space-x-3">
+                <div className="w-8 h-8 border-2 border-amber-300 rounded-full flex items-center justify-center">
+                  <div className="w-3 h-3 bg-amber-300 rounded-full"></div>
+                </div>
+                <span>Sacred Tiki Bar</span>
+                <div className="w-8 h-8 border-2 border-amber-300 rounded-full flex items-center justify-center">
+                  <div className="w-3 h-3 bg-amber-300 rounded-full"></div>
+                </div>
+              </h1>
+              <p className="text-base sm:text-lg text-amber-200 mt-2 flex items-center space-x-2">
+                <div className="w-4 h-4 border border-amber-300 rounded-full"></div>
+                <span>
+                  {orders.length === 0 ? "Paradise is at peace" : `${orders.length} sacred ritual${orders.length > 1 ? 's' : ''} brewing`}
+                </span>
+                <div className="w-4 h-4 border border-amber-300 rounded-full"></div>
               </p>
             </div>
           </div>
 
           {orders.length > 0 && (
-            <div className="text-right">
-              <div className="text-xs sm:text-base text-gray-500">Current Time</div>
-              <div className="text-lg sm:text-2xl font-semibold text-gray-900">
-                {new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
+            <div className="text-right bg-amber-800/50 px-4 py-3 rounded-2xl border-2 border-amber-600">
+              <div className="text-sm sm:text-base text-amber-300 font-semibold">Island Time</div>
+              <div className="text-xl sm:text-3xl font-bold text-amber-50 flex items-center space-x-2">
+                <div className="w-6 h-6 border-2 border-amber-300 rounded-full flex items-center justify-center">
+                  <div className="w-2 h-2 bg-amber-300 rounded-full"></div>
+                </div>
+                <span>{new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}</span>
               </div>
             </div>
           )}
@@ -78,89 +125,166 @@ const BartenderQueue = () => {
       </div>
 
       {/* Orders List */}
-      <div className="w-full px-4 sm:px-6 md:px-8 py-6">
+      <div className="w-full px-4 sm:px-6 md:px-8 py-6 relative z-10">
         {orders.length === 0 ? (
-          <div className="text-center py-24">
-            <div className="w-32 h-32 sm:w-40 sm:h-40 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <span className="text-6xl sm:text-7xl text-gray-400">🍸</span>
+          <div className="text-center py-16 sm:py-20 relative">
+            {/* Floating tropical elements */}
+            <div className="absolute top-8 left-1/4 w-8 h-8 border-2 border-amber-600 rounded-full animate-pulse opacity-30"></div>
+            <div className="absolute top-12 right-1/4 w-6 h-6 border-2 border-amber-600 rounded-full animate-pulse opacity-30"></div>
+            <div className="absolute bottom-8 left-1/3 w-6 h-6 border-2 border-amber-600 rounded-full animate-pulse opacity-30"></div>
+            <div className="absolute bottom-12 right-1/3 w-8 h-8 border-2 border-amber-600 rounded-full animate-pulse opacity-30"></div>
+            
+            <div className="w-24 h-32 bg-amber-700 rounded-3xl border-4 border-amber-600 flex flex-col items-center justify-center mx-auto mb-8 shadow-2xl">
+              <div className="w-6 h-6 bg-white rounded-full mb-2"></div>
+              <div className="w-4 h-4 bg-white rounded-full mb-2"></div>
+              <div className="w-8 h-3 bg-white rounded-full"></div>
             </div>
-            <h3 className="text-2xl sm:text-3xl font-medium text-gray-900 mb-3">All caught up!</h3>
-            <p className="text-lg sm:text-xl text-gray-600">New orders will appear here when customers place them.</p>
+            <h2 className="text-2xl sm:text-4xl font-bold text-amber-900 mb-4 flex items-center justify-center space-x-3">
+              <div className="w-6 h-6 border-2 border-amber-700 rounded-full flex items-center justify-center">
+                <div className="w-2 h-2 bg-amber-700 rounded-full"></div>
+              </div>
+              <span>The Sacred Tiki Awaits</span>
+              <div className="w-6 h-6 border-2 border-amber-700 rounded-full flex items-center justify-center">
+                <div className="w-2 h-2 bg-amber-700 rounded-full"></div>
+              </div>
+            </h2>
+            <p className="text-lg sm:text-xl text-amber-700 max-w-md mx-auto flex items-center justify-center space-x-2">
+              <div className="w-4 h-4 border border-amber-600 rounded-full"></div>
+              <span>No island spirits require your attention at this time</span>
+              <div className="w-4 h-4 border border-amber-600 rounded-full"></div>
+            </p>
+            
+            {/* Decorative tiki border */}
+            <div className="mt-12 flex items-center justify-center space-x-4">
+              <div className="w-16 h-1 bg-amber-600 rounded-full"></div>
+              <div className="w-8 h-8 border-2 border-amber-600 rounded-full flex items-center justify-center">
+                <div className="w-3 h-3 bg-amber-600 rounded-full"></div>
+              </div>
+              <div className="w-16 h-1 bg-amber-600 rounded-full"></div>
+              <div className="w-6 h-6 border-2 border-amber-600 rounded-full"></div>
+              <div className="w-16 h-1 bg-amber-600 rounded-full"></div>
+              <div className="w-8 h-8 border-2 border-amber-600 rounded-full flex items-center justify-center">
+                <div className="w-3 h-3 bg-amber-600 rounded-full"></div>
+              </div>
+              <div className="w-16 h-1 bg-amber-600 rounded-full"></div>
+            </div>
           </div>
         ) : (
           <div className="space-y-6">
             {orders.map((order, orderIndex) => (
               <div
                 key={order.id}
-                className={`border-l-4 rounded-xl shadow-sm transition-all duration-200 hover:shadow-lg w-full max-w-[768px] ${getUrgencyColor(order.timestamp)}`}
+                className={`border-l-8 rounded-3xl shadow-2xl border-4 transition-all duration-500 hover:shadow-3xl w-full max-w-[768px] relative overflow-hidden ${getUrgencyColor(order.timestamp)}`}
                 style={{ marginLeft: 0 }}
               >
-                <div className="p-4 sm:p-6">
+                {/* Tiki decorative patterns */}
+                <div className="absolute top-4 right-4 opacity-20">
+                  <div className="w-8 h-8 border-2 border-amber-600 rounded-full flex items-center justify-center">
+                    <div className="w-3 h-3 bg-amber-600 rounded-full"></div>
+                  </div>
+                </div>
+                <div className="absolute bottom-4 left-4 opacity-20">
+                  <div className="w-6 h-6 border-2 border-amber-600 rounded-full"></div>
+                </div>
+
+                <div className="p-6 sm:p-8 bg-gradient-to-br from-amber-50 to-amber-100">
                   {/* Order Header */}
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center space-x-3 sm:space-x-4">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-gray-700 to-gray-900 rounded-full flex items-center justify-center">
-                        <span className="text-white font-bold text-lg sm:text-xl">
-                          {order.customer ? order.customer.charAt(0).toUpperCase() : '#'}
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="flex items-center space-x-4 sm:space-x-6">
+                      {/* Tiki customer avatar */}
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-amber-700 rounded-2xl flex items-center justify-center shadow-2xl border-3 border-amber-600 relative overflow-hidden">
+                        <div className="absolute top-0 left-0 w-full h-4 bg-amber-800 rounded-t-2xl"></div>
+                        <span className="text-amber-100 font-bold text-lg sm:text-2xl relative z-10">
+                          {order.customer ? order.customer.charAt(0).toUpperCase() : 'G'}
                         </span>
+                        <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-6 h-1 bg-amber-600 rounded-full"></div>
                       </div>
                       <div>
-                        <h3 className="text-lg sm:text-xl font-semibold text-gray-900">{order.customer || `Order #${orderIndex + 1}`}</h3>
-                        <div className="flex items-center space-x-3 sm:space-x-4 text-xs sm:text-sm text-gray-600 mt-1">
-                          <span>🕐 {formatTime(order.timestamp)}</span>
-                          <span className="font-medium">{getTimeElapsed(order.timestamp)}</span>
+                        <h3 className="text-xl sm:text-2xl font-bold text-amber-900 flex items-center space-x-2">
+                          <div className="w-4 h-4 border-2 border-amber-700 rounded-full"></div>
+                          <span>Islander: {order.customer || `Sacred Guest #${orderIndex + 1}`}</span>
+                        </h3>
+                        <div className="flex items-center space-x-4 sm:space-x-6 text-sm sm:text-base text-amber-700 mt-2">
+                          <span className="flex items-center space-x-1">
+                            <div className="w-3 h-3 border border-amber-600 rounded-full"></div>
+                            <span>Blessed at: {formatTime(order.timestamp)}</span>
+                          </span>
+                          <span className="font-semibold flex items-center space-x-1">
+                            <div className="w-3 h-3 border border-amber-600 rounded-full"></div>
+                            <span>{getTimeElapsed(order.timestamp)}</span>
+                          </span>
                         </div>
                       </div>
                     </div>
 
                     <button
                       onClick={() => removeOrder(order.id)}
-                      className="bg-green-600 hover:bg-green-700 text-white font-semibold px-4 sm:px-6 py-2 sm:py-3 rounded-lg flex items-center space-x-1 sm:space-x-2 shadow-sm hover:shadow-md text-sm sm:text-base"
+                      className="bg-teal-600 hover:bg-teal-700 text-white font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-2xl flex items-center space-x-3 shadow-lg hover:shadow-xl text-base sm:text-lg border-3 border-teal-600 hover:border-teal-700 transition-all duration-300 hover:scale-105"
                     >
-                      <span>✅</span>
-                      <span>Complete</span>
+                      <div className="w-4 h-4 border-2 border-white rounded-full"></div>
+                      <span>Ritual Complete</span>
                     </button>
                   </div>
 
                   {/* Drinks List */}
-                  <div className="mb-4">
-                    <h4 className="text-sm sm:text-base font-medium text-gray-700 mb-2 uppercase tracking-wide">
-                      Drinks Ordered ({order.items.length})
+                  <div className="mb-6">
+                    <h4 className="text-base sm:text-lg font-bold text-amber-800 mb-4 uppercase tracking-wider flex items-center space-x-2">
+                      <div className="w-4 h-4 border-2 border-amber-700 rounded-full"></div>
+                      <span>Sacred Island Elixirs ({order.items.length})</span>
+                      <div className="w-4 h-4 border-2 border-amber-700 rounded-full"></div>
                     </h4>
-                    <div className="grid gap-2">
+                    <div className="grid gap-3">
                       {order.items.map((drink, drinkIndex) => {
                         const recipeKey = `${orderIndex}-${drinkIndex}`;
                         const showThisRecipe = showRecipe === recipeKey;
                         
                         return (
-                          <div key={drinkIndex} className="space-y-2">
-                            <div className="flex items-center space-x-2 sm:space-x-3 p-2 sm:p-3 bg-gray-50 rounded-lg">
-                              <span className="text-2xl sm:text-3xl">{drink.emoji || '🍹'}</span>
-                              <span className="font-medium text-gray-900 text-sm sm:text-base flex-1">{drink.name || drink}</span>
-                              <span className="text-xs sm:text-sm bg-gray-200 text-gray-600 px-2 py-1 rounded-full font-medium">#{drinkIndex + 1}</span>
+                          <div key={drinkIndex} className="space-y-3">
+                            <div className="flex items-center space-x-3 sm:space-x-4 p-4 sm:p-5 bg-amber-100 border-3 border-amber-600 rounded-2xl shadow-lg">
+                              <div className="w-4 h-4 bg-teal-600 rounded-full flex-shrink-0 shadow-md"></div>
+                              <span className="font-bold text-amber-900 text-base sm:text-lg flex-1 flex items-center space-x-2">
+                                <div className="w-3 h-3 border border-amber-700 rounded-full"></div>
+                                <span>{drink.name || drink}</span>
+                              </span>
+                              <span className="text-sm sm:text-base bg-amber-700 text-amber-100 px-3 py-2 rounded-full font-bold shadow-md">
+                                #{drinkIndex + 1}
+                              </span>
                               
                               {/* Recipe Button */}
                               <button
                                 onClick={() => handleShowRecipe(orderIndex, drinkIndex)}
-                                className={`px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all duration-200 ${
+                                className={`px-4 py-2 text-sm sm:text-base font-bold rounded-2xl transition-all duration-300 border-3 shadow-lg hover:shadow-xl ${
                                   showThisRecipe
-                                    ? 'bg-blue-600 text-white'
-                                    : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
+                                    ? 'bg-teal-600 text-white border-teal-600'
+                                    : 'bg-amber-200 text-teal-700 border-amber-400 hover:bg-amber-300 hover:border-amber-500'
                                 }`}
                               >
-                                {showThisRecipe ? 'Hide Recipe' : 'Recipe'}
+                                {showThisRecipe ? 'Hide Sacred Recipe' : 'Show Sacred Recipe'}
                               </button>
                             </div>
                             
                             {/* Recipe Panel */}
                             {showThisRecipe && (
-                              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-3 sm:p-4 ml-4">
-                                <div className="flex items-start space-x-2">
-                                  <span className="text-blue-600 mt-0.5 text-base sm:text-lg">🥄</span>
-                                  <div>
-                                    <h5 className="text-sm sm:text-base font-medium text-blue-900 mb-2">Recipe for {drink.name}</h5>
-                                    <p className="text-sm sm:text-base text-blue-800 leading-relaxed font-mono">
-                                      {recipeData[drink.name] || 'Recipe not available'}
+                              <div className="bg-teal-50 border-3 border-teal-400 rounded-2xl p-4 sm:p-6 ml-6 shadow-xl relative overflow-hidden">
+                                {/* Tiki decorative elements */}
+                                <div className="absolute top-2 right-2 w-4 h-4 border border-amber-600 rounded-full opacity-30"></div>
+                                <div className="absolute bottom-2 left-2 w-4 h-4 border border-amber-600 rounded-full opacity-30"></div>
+                                
+                                <div className="flex items-start space-x-4">
+                                  {/* Tiki recipe icon */}
+                                  <div className="w-10 h-10 bg-teal-600 rounded-2xl flex items-center justify-center flex-shrink-0 mt-1 shadow-lg">
+                                    <div className="w-4 h-4 bg-white rounded-full flex items-center justify-center">
+                                      <div className="w-2 h-2 bg-teal-600 rounded-full"></div>
+                                    </div>
+                                  </div>
+                                  <div className="flex-1">
+                                    <h5 className="text-base sm:text-lg font-bold text-teal-900 mb-3 flex items-center space-x-2">
+                                      <div className="w-4 h-4 border border-teal-700 rounded-full"></div>
+                                      <span>Sacred Recipe for {drink.name}</span>
+                                      <div className="w-4 h-4 border border-teal-700 rounded-full"></div>
+                                    </h5>
+                                    <p className="text-sm sm:text-base text-teal-800 leading-relaxed font-mono bg-white px-4 py-3 rounded-xl border-2 border-teal-300 shadow-md">
+                                      {recipeData[drink.name] || 'Ancient recipe lost to the island mists...'}
                                     </p>
                                   </div>
                                 </div>
@@ -174,12 +298,27 @@ const BartenderQueue = () => {
 
                   {/* Special Notes */}
                   {order.notes && (
-                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 sm:p-4">
-                      <div className="flex items-start space-x-2">
-                        <span className="text-blue-600 mt-0.5 text-base sm:text-lg">📝</span>
-                        <div>
-                          <h5 className="text-sm sm:text-base font-medium text-blue-900 mb-1">Special Requests</h5>
-                          <p className="text-sm sm:text-base text-blue-800 leading-relaxed">{order.notes}</p>
+                    <div className="bg-amber-200 border-3 border-amber-600 rounded-2xl p-4 sm:p-6 shadow-xl relative overflow-hidden">
+                      {/* Tiki decorative elements */}
+                      <div className="absolute top-2 right-2 w-4 h-4 border border-amber-600 rounded-full opacity-30"></div>
+                      <div className="absolute bottom-2 left-2 w-4 h-4 border border-amber-600 rounded-full opacity-30"></div>
+                      
+                      <div className="flex items-start space-x-4">
+                        {/* Sacred note icon */}
+                        <div className="w-10 h-10 bg-amber-700 rounded-2xl flex items-center justify-center flex-shrink-0 mt-1 shadow-lg">
+                          <div className="w-4 h-4 bg-amber-200 rounded-full flex items-center justify-center">
+                            <div className="w-2 h-2 bg-amber-700 rounded-full"></div>
+                          </div>
+                        </div>
+                        <div className="flex-1">
+                          <h5 className="text-base sm:text-lg font-bold text-amber-900 mb-3 flex items-center space-x-2">
+                            <div className="w-4 h-4 border border-amber-700 rounded-full"></div>
+                            <span>Sacred Island Wishes</span>
+                            <div className="w-4 h-4 border border-amber-700 rounded-full"></div>
+                          </h5>
+                          <p className="text-sm sm:text-base text-amber-800 leading-relaxed bg-amber-50 px-4 py-3 rounded-xl border-2 border-amber-400 shadow-md font-medium">
+                            {order.notes}
+                          </p>
                         </div>
                       </div>
                     </div>
