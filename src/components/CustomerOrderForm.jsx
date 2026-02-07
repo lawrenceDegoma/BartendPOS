@@ -165,10 +165,10 @@ const CustomerOrderForm = () => {
                 sessionStorage.removeItem('guestName');
                 navigate('/');
               }}
-              className="text-amber-800 dark:text-amber-300 hover:text-amber-900 dark:hover:text-amber-200 transition-colors duration-200 flex items-center space-x-2 bg-amber-800/30 dark:bg-amber-700/30 px-3 py-2 rounded-full border border-amber-700/50 dark:border-amber-600/50"
+              className="w-fit text-amber-800 dark:text-amber-300 hover:text-amber-900 dark:hover:text-amber-200 transition-colors duration-200 flex items-center space-x-1 bg-amber-800/30 dark:bg-amber-700/30 px-3 py-2 rounded-full border border-amber-700/50 dark:border-amber-600/50"
             >
               <span>←</span>
-              <span className="text-sm sm:text-base">Back</span>
+              <span className="text-xs sm:text-base">Back</span>
             </button>
             <div className="text-center flex-1">
               <h1 className="text-xl sm:text-2xl font-bold text-amber-50 dark:text-amber-100 tracking-wide flex items-center justify-center space-x-3">
@@ -267,8 +267,8 @@ const CustomerOrderForm = () => {
                             }}
                             className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border-3 flex items-center justify-center transition-all duration-200 touch-manipulation ${
                               isSelected 
-                                ? 'bg-amber-600 dark:bg-amber-500 border-amber-500 dark:border-amber-400 text-white hover:bg-amber-500 dark:hover:bg-amber-400' 
-                                : 'bg-stone-200 dark:bg-stone-700 border-amber-400 dark:border-amber-600 text-amber-800 dark:text-amber-200 hover:bg-amber-200 dark:hover:bg-stone-600'
+                                ? 'bg-amber-600 dark:bg-amber-500 border-amber-500 dark:border-amber-400 text-white dark:text-white hover:bg-amber-500 dark:hover:bg-amber-400' 
+                                : 'bg-stone-200 dark:bg-stone-700 border-amber-600 dark:border-amber-600 text-amber-800 dark:text-amber-200 hover:bg-amber-200 dark:hover:bg-stone-600'
                             }`}
                             title="View description"
                           >
@@ -281,7 +281,7 @@ const CustomerOrderForm = () => {
                             <button
                               type="button"
                               onClick={() => handleQuantityChange(item.name, 1)}
-                              className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border-3 flex items-center justify-center transition-all duration-200 touch-manipulation bg-amber-200 dark:bg-amber-800 border-amber-500 dark:border-amber-600 text-amber-800 dark:text-amber-200 hover:bg-amber-300 dark:hover:bg-amber-700"
+                              className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border-3 flex items-center justify-center transition-all duration-200 touch-manipulation bg-amber-200 dark:bg-amber-800 border-amber-600 dark:border-amber-600 text-amber-800 dark:text-amber-200 hover:bg-amber-300 dark:hover:bg-amber-700"
                             >
                               <div className="text-lg font-bold">+</div>
                             </button>
@@ -294,8 +294,8 @@ const CustomerOrderForm = () => {
                                 onClick={() => handleQuantityChange(item.name, -1)}
                                 className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border-3 flex items-center justify-center transition-all duration-200 touch-manipulation ${
                                   isSelected 
-                                    ? 'bg-amber-600 dark:bg-amber-500 border-amber-500 dark:border-amber-400 text-white hover:bg-amber-500 dark:hover:bg-amber-400' 
-                                    : 'bg-amber-200 dark:bg-amber-800 border-amber-500 dark:border-amber-600 text-amber-800 dark:text-amber-200 hover:bg-amber-300 dark:hover:bg-amber-700'
+                                    ? 'bg-amber-600 dark:bg-amber-500 border-amber-500 dark:border-amber-400 text-white dark:text-white hover:bg-amber-500 dark:hover:bg-amber-400' 
+                                    : 'bg-amber-200 dark:bg-amber-800 border-amber-600 dark:border-amber-600 text-amber-800 dark:text-amber-200 hover:bg-amber-300 dark:hover:bg-amber-700'
                                 }`}
                               >
                                 <span className="text-lg font-bold">−</span>
@@ -304,8 +304,8 @@ const CustomerOrderForm = () => {
                               {/* Quantity Display */}
                               <div className={`min-w-12 h-10 sm:h-12 px-3 rounded-xl border-3 flex items-center justify-center ${
                                 isSelected 
-                                  ? 'bg-white dark:bg-stone-100 border-amber-200 dark:border-amber-300 text-amber-800 dark:text-amber-900' 
-                                  : 'bg-amber-100 dark:bg-amber-900 border-amber-400 dark:border-amber-600 text-amber-800 dark:text-amber-200'
+                                  ? 'bg-amber-600 dark:bg-amber-500 border-amber-500 dark:border-amber-400 text-white dark:text-white' 
+                                  : 'bg-amber-100 dark:bg-amber-900 border-amber-600 dark:border-amber-600 text-amber-800 dark:text-amber-200'
                               }`}>
                                 <span className="text-base sm:text-lg font-bold">{quantity}</span>
                               </div>
@@ -316,8 +316,8 @@ const CustomerOrderForm = () => {
                                 onClick={() => handleQuantityChange(item.name, 1)}
                                 className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border-3 flex items-center justify-center transition-all duration-200 touch-manipulation ${
                                   isSelected 
-                                    ? 'bg-white dark:bg-stone-100 border-amber-200 dark:border-amber-300 text-amber-800 dark:text-amber-900 hover:bg-amber-100 dark:hover:bg-stone-200' 
-                                    : 'bg-amber-200 dark:bg-amber-800 border-amber-500 dark:border-amber-600 text-amber-800 dark:text-amber-200 hover:bg-amber-300 dark:hover:bg-amber-700'
+                                    ? 'bg-amber-600 dark:bg-amber-500 border-amber-500 dark:border-amber-400 text-white dark:text-white hover:bg-amber-500 dark:hover:bg-amber-400' 
+                                    : 'bg-amber-200 dark:bg-amber-800 border-amber-600 dark:border-amber-600 text-amber-800 dark:text-amber-200 hover:bg-amber-300 dark:hover:bg-amber-700'
                                 }`}
                               >
                                 <span className="text-lg font-bold">+</span>

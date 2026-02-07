@@ -95,7 +95,7 @@ const HomePage = () => {
       
       <button
         onClick={handleGuestContinue}
-        className="mb-8 px-8 py-4 rounded-2xl bg-amber-800 hover:bg-amber-700 text-white font-tiki-body font-bold text-lg transition-all duration-200 w-full max-w-sm shadow-2xl border-4 border-amber-600 hover:border-amber-500 active:scale-95 relative overflow-hidden"
+        className="mb-8 px-8 py-4 rounded-2xl !bg-black hover:bg-stone-800 text-white font-tiki-body font-bold text-lg transition-all duration-200 w-full max-w-sm shadow-2xl border-4 border-stone-600 hover:border-stone-500 active:scale-95 relative overflow-hidden"
       >
         {/* Tiki Button Pattern */}
         <div className="absolute inset-0 opacity-20">
