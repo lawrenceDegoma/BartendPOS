@@ -10,12 +10,6 @@ const menuItems = [
     recipe: '1 oz aged rum, 1 oz white rum, 0.5 oz orange curaçao, 0.5 oz orgeat syrup, 1 oz lime juice, mint sprig garnish'
   },
   { 
-    name: 'Zombie', 
-    category: 'Strong',
-    description: 'Don Beachcomber\'s legendary creation featuring three types of rum and secret ingredients. Dangerously smooth and potent - limit two per person!',
-    recipe: '1 oz white rum, 1 oz gold rum, 1 oz dark rum, 0.5 oz apricot liqueur, 1 oz lime juice, 1 oz pineapple juice, grenadine dash'
-  },
-  { 
     name: 'Piña Colada', 
     category: 'Classic',
     description: 'Creamy tropical bliss with coconut cream, pineapple juice, and white rum. The ultimate vacation cocktail served frozen or on the rocks.',
@@ -29,10 +23,11 @@ const menuItems = [
     recipe: '0.5 oz vodka, 0.5 oz gin, 0.5 oz rum, 0.5 oz tequila, 0.5 oz Triple sec, 0.5 oz simple syrup, 0.5 oz lemon juice, top with coke, lemon wedge garnish'
   },
   { 
-    name: 'Blue Hawaiian', 
-    category: 'Tropical',
-    description: 'A stunning blue cocktail with rum, blue curaçao, and tropical juices. As beautiful as the islands it represents.',
-    recipe: '1 oz light rum, 1 oz blue curaçao, 2 oz pineapple juice, 1 oz cream of coconut, 0.5 oz lime juice'
+    name: 'Midori Sour', 
+    emoji: '🍸', 
+    category: 'Classic',
+    description: 'A vibrant neon-green cocktail known for its sweet and sour flavor profile.',
+    recipe: '1.5 oz midori, 2 oz sour mix, 1.5 oz lime juice, top with sprite'
   },
   { 
     name: 'Tokyo Tea', 
