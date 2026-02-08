@@ -22,10 +22,11 @@ const menuItems = [
     recipe: '2 oz white rum, 1 oz coconut cream, 3 oz pineapple juice, pineapple wedge garnish'
   },
   { 
-    name: 'Scorpion Bowl', 
+    name: 'Long Island Iced Tea', 
+    emoji: '🍹', 
     category: 'Strong',
-    description: 'A communal drink designed for sharing, featuring rum, brandy, and tropical juices. Traditionally served with long straws in a large bowl.',
-    recipe: '2 oz light rum, 1 oz brandy, 2 oz orange juice, 2 oz lemon juice, 1 oz orgeat syrup'
+    description: 'A potent mix of vodka, rum, gin, tequila, and triple sec with cola. Despite the name, no tea involved - just a smooth, strong cocktail that tastes surprisingly refreshing!',
+    recipe: '0.5 oz vodka, 0.5 oz gin, 0.5 oz rum, 0.5 oz tequila, 0.5 oz Triple sec, 0.5 oz simple syrup, 0.5 oz lemon juice, top with coke, lemon wedge garnish'
   },
   { 
     name: 'Blue Hawaiian', 
@@ -34,10 +35,11 @@ const menuItems = [
     recipe: '1 oz light rum, 1 oz blue curaçao, 2 oz pineapple juice, 1 oz cream of coconut, 0.5 oz lime juice'
   },
   { 
-    name: 'Navy Grog', 
+    name: 'Tokyo Tea', 
+    emoji: '🍵', 
     category: 'Strong',
-    description: 'A potent sailor\'s drink with three rums, lime, and grapefruit. Served over crushed ice with a cone of ice in the center.',
-    recipe: '1 oz light rum, 1 oz dark rum, 1 oz demerara rum, 0.75 oz lime juice, 0.75 oz grapefruit juice, 0.75 oz honey syrup'
+    description: 'Similar to Long Island but with the use of a melon liqueur and sprite, giving it a beautiful green color and a slightly sweeter, fruity taste. Still packs a punch!',
+    recipe: '0.5 oz vodka, 0.5 oz gin, 0.5 oz rum, 0.5 oz tequila, 0.5 oz midori, 2 oz sour mix, top with sprite, lemon or lime garnish'
   },
 ];
 
